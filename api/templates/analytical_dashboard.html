@@ -18,34 +18,9 @@
   <button type="submit" style="padding:1px; background-color: white; color: black; border: none; cursor: pointer; border-radius: 5px;" >Download CSV</button>
 </form>
 
-<div class="heading-top">Pie Representation</div>
-<div class="piechartsdiv">
-  <div class="col-xs-10 col-sm-6 col-md-6">
-    <div class="card card-style mb-2">
-      <div class="card-body">
-        <div class="chart-container" style="height: 1000px; width: 1000px">
-          <canvas id="graph1"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<br><br>
-<div class="heading-top">Bar Representation</div>
-<div class="barchart">
-  <div class="col-xs-10 col-sm-6 col-md-6">
-    <div class="card card-style mb-2">
-      <div class="card-body">
-        <div class="chart-container" style="height: 1000px; width: 100%">
-          <canvas id="graph2"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<br><br>
+
 <div class="heading-top">Static Representation</div>
 <div class="col-xs-10 col-sm-6 col-md-6">
   <div class="card card-style mb-2">
@@ -171,86 +146,6 @@
 <script>
   var dist = {{ district | tojson }};
   var dist_mod = {{ district_mod | tojson }};
-  let graph1_chart = new Chart(graph1, {
-    type: 'pie',
-    data: {
-      labels: dist,
-      datasets: [{
-        label: "Red Zones All Time",
-        data: dist_mod,
-        backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
-          '#B276B2', '#E16851', '#FB8267'],
-
-        borderWidth: 1,
-        hoverBorderColor: "black",
-        hoverBorderWidth: 2,
-        hoverBackgroundColor: 'rgba(154, 245, 140)',
-        pointHoverRadius: 6
-      }],
-    },
-    options: {
-      title: {
-        display: true,
-        text: "Red Zones All Time",
-        fontSize: 20,
-      },
-      legend: {
-        position: "right",
-        labels: {
-          fontColor: "gray"
-        },
-        display: true,
-      },
-
-      elements: {
-        hitRadius: 3,
-      }
-    }
-  });
-
-
-
-  let graph2_chart = new Chart(graph2, {
-    type: 'bar',
-    data: {
-      labels: dist,
-      datasets: [{
-        barPercentage: 1,
-        barThickness: 6,
-        maxBarThickness: 8,
-        minBarLength: 2,
-        data: dist_mod,
-        backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
-          '#B276B2', '#E16851', '#FB8267'],
-
-        borderWidth: 1,
-        hoverBorderColor: "black",
-        hoverBorderWidth: 2,
-        hoverBackgroundColor: 'rgba(154, 245, 140)',
-        pointHoverRadius: 6
-      }],
-    },
-    options: {
-      title: {
-        display: true,
-        text: "Red Zones All Time",
-        fontSize: 20,
-      },
-      legend: {
-        position: "right",
-        labels: {
-          fontColor: "gray"
-        },
-        display: true,
-      },
-
-      elements: {
-        hitRadius: 3,
-      }
-    }
-  });
-
-
 
   var redzone_dist = {{ redzones | tojson }};
 
