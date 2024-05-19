@@ -714,7 +714,7 @@ def analytical_dashboard(username):
             seriesdata=seriesdatafun(data)
             print(seriesdata)
             csv_data = generate_csv(data,['District_Name', 'UnitName', 'FIRNo', 'RI', 'Year', 'Month', 'Offence_From_Date', 'Offence_To_Date', 'FIR_Reg_DateTime', 'FIR_Date', 'FIR_Type', 'FIR_Stage', 'Complaint_Mode', 'CrimeGroup_Name', 'CrimeHead_Name', 'Latitude', 'Longitude', 'ActSection', 'IOName', 'KGID', 'IOAssigned_Date', 'Internal_IO', 'Place_of_Offence', 'Distance_from_PS', 'Beat_Name', 'Village_Area_Name', 'Male', 'Female', 'Boy', 'Girl', 'Age', 'VICTIM_COUNT', 'Accused_Count', 'Arrested_Male', 'Arrested_Female', 'Arrested_Count_No', 'Accused_ChargeSheeted_Count', 'Conviction_Count', 'FIR_ID', 'Unit_ID', 'Crime_No'])
-            return render_template('analytical_dashboard.html',data=data,series_data=seriesdata,htmlmap=htmlmap,district=district,district_mod=district_mod,datalength=len(data),redzones=redzones,username=username,csv_data=csv_data)
+            return render_template('analytical_dashboard.html',data=data,series_data=seriesdata,htmlmap=htmlmap,datalength=len(data),redzones=redzones,username=username,csv_data=csv_data)
         else:
             data=firdata('all')
             districts=find_police(data)
@@ -729,7 +729,7 @@ def analytical_dashboard(username):
              
             seriesdata=seriesdatafun(data)
             print(seriesdata)        
-            return render_template('analytical_dashboard.html',data=data,series_data=seriesdata,htmlmap=htmlmap,district=district,district_mod=district_mod,datalength=len(data),redzones=redzones,username=username,csv_data=csv_data)
+            return render_template('analytical_dashboard.html',data=data,series_data=seriesdata,htmlmap=htmlmap,datalength=len(data),redzones=redzones,username=username,csv_data=csv_data)
     else:
         return render_template('login.html')
 
