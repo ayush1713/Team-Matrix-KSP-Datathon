@@ -400,7 +400,8 @@ def home(username):
         data=cursor.fetchone()
         conn.close()
         return render_template('home.html',username=username,data=data)
-    return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 @app.route('/staff/<username>',methods=['GET','POST'])
 def staff(username):
@@ -422,14 +423,16 @@ def staff(username):
                 i[11]='http://127.0.0.1:5000/uploads/'+i[11]
             csv_data = generate_csv(datawl,['ID','NAME','EMAIL','PHONENUMBER','AGE','GENDER','DOB','JOINING_DATE','BRANCH','DESIGNATION','RETIRED_OR_SUSPENDED','IMAGE','ADDRESS'])
             return render_template('staff.html',data=data,username=username,gender=gender,retiredstatus=retiredtatus,csv_data=csv_data)
-        data=getstaff('all')
-        print(data)
-        datawl=[list(i[:2]+i[3:]) for i in data]
-        for i in datawl:
-            i[11]='http://127.0.0.1:5000/uploads/'+i[11]
-        csv_data = generate_csv(datawl,['ID','NAME','EMAIL','PHONENUMBER','AGE','GENDER','DOB','JOINING_DATE','BRANCH','DESIGNATION','RETIRED_OR_SUSPENDED','IMAGE','ADDRESS'])
-        return render_template('staff.html',data=data,username=username,gender=gender,retiredstatus=retiredtatus,csv_data=csv_data)
-    return render_template('login.html')
+        else:
+            data=getstaff('all')
+            print(data)
+            datawl=[list(i[:2]+i[3:]) for i in data]
+            for i in datawl:
+                i[11]='http://127.0.0.1:5000/uploads/'+i[11]
+            csv_data = generate_csv(datawl,['ID','NAME','EMAIL','PHONENUMBER','AGE','GENDER','DOB','JOINING_DATE','BRANCH','DESIGNATION','RETIRED_OR_SUSPENDED','IMAGE','ADDRESS'])
+            return render_template('staff.html',data=data,username=username,gender=gender,retiredstatus=retiredtatus,csv_data=csv_data)
+    else:
+        return render_template('login.html')
 
 @app.route('/criminal/<username>',methods=['GET','POST'])
 def criminal(username):
@@ -453,18 +456,20 @@ def criminal(username):
             csv_data = generate_csv(datawl,['ID', 'NAME', 'PHONENUMBER', 'AGE', 'GENDER', 'DOB', 'JAILED', 'IMAGE', 'ADDRESS'])
             
             return render_template('criminal.html',data=data,username=username,jailed=jailed,gender=gender,csv_data=csv_data)
-        data=getcriminal('all')
-        print(data)
-        datawl=[]
-        for i in data:
-            print(i)
-            datawl.append(list(i))
-        for i in datawl:
-            i[7]='http://127.0.0.1:5000/uploads/'+i[7]
-        csv_data = generate_csv(datawl,['ID', 'NAME', 'PHONENUMBER', 'AGE', 'GENDER', 'DOB', 'JAILED', 'IMAGE', 'ADDRESS'])
-            
-        return render_template('criminal.html',data=data,username=username,jailed=jailed,gender=gender,csv_data=csv_data)
-    return render_template('login.html')
+        else:
+            data=getcriminal('all')
+            print(data)
+            datawl=[]
+            for i in data:
+                print(i)
+                datawl.append(list(i))
+            for i in datawl:
+                i[7]='http://127.0.0.1:5000/uploads/'+i[7]
+            csv_data = generate_csv(datawl,['ID', 'NAME', 'PHONENUMBER', 'AGE', 'GENDER', 'DOB', 'JAILED', 'IMAGE', 'ADDRESS'])
+                
+            return render_template('criminal.html',data=data,username=username,jailed=jailed,gender=gender,csv_data=csv_data)
+    else:
+        return render_template('login.html')
 
 # to send the folder details of uploaded image
 @app.route('/uploads/<filename>')
@@ -547,7 +552,8 @@ def add_staff(username):
             return render_template('add_staff.html',username=username)
         else:
             return render_template('notallowed.html',username=username)
-    return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 def allowed_file(filename):
   allowed_extensions = {'jpg', 'gif', 'jpeg', 'png'}
@@ -608,7 +614,8 @@ def add_criminal(username):
             return render_template('add_criminal.html',username=username)
         else:
             return render_template('notallowed.html',username=username)
-    return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 
 
@@ -679,7 +686,8 @@ def file_complaint(username):
             return render_template('file_complaint.html',username=username)
         else:
             return render_template('notallowed.html',username=username)
-    return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 @app.route('/analytical_dashboard/<username>',methods=['GET','POST'])
 def analytical_dashboard(username):
@@ -707,22 +715,23 @@ def analytical_dashboard(username):
             print(seriesdata)
             csv_data = generate_csv(data,['District_Name', 'UnitName', 'FIRNo', 'RI', 'Year', 'Month', 'Offence_From_Date', 'Offence_To_Date', 'FIR_Reg_DateTime', 'FIR_Date', 'FIR_Type', 'FIR_Stage', 'Complaint_Mode', 'CrimeGroup_Name', 'CrimeHead_Name', 'Latitude', 'Longitude', 'ActSection', 'IOName', 'KGID', 'IOAssigned_Date', 'Internal_IO', 'Place_of_Offence', 'Distance_from_PS', 'Beat_Name', 'Village_Area_Name', 'Male', 'Female', 'Boy', 'Girl', 'Age', 'VICTIM_COUNT', 'Accused_Count', 'Arrested_Male', 'Arrested_Female', 'Arrested_Count_No', 'Accused_ChargeSheeted_Count', 'Conviction_Count', 'FIR_ID', 'Unit_ID', 'Crime_No'])
             return render_template('analytical_dashboard.html',data=data,series_data=seriesdata,htmlmap=htmlmap,district=district,district_mod=district_mod,datalength=len(data),redzones=redzones,username=username,csv_data=csv_data)
+        else:
+            data=firdata('all')
+            districts=find_police(data)
+            district=list(districts.keys())
+            district_mod=list(districts.values())
             
-        data=firdata('all')
-        districts=find_police(data)
-        district=list(districts.keys())
-        district_mod=list(districts.values())
-        
-        redzones=find_rendzones(data)
-        htmlmap=earthmap(data)
-        print(redzones)
-        csv_data = generate_csv(data,['District_Name', 'UnitName', 'FIRNo', 'RI', 'Year', 'Month', 'Offence_From_Date', 'Offence_To_Date', 'FIR_Reg_DateTime', 'FIR_Date', 'FIR_Type', 'FIR_Stage', 'Complaint_Mode', 'CrimeGroup_Name', 'CrimeHead_Name', 'Latitude', 'Longitude', 'ActSection', 'IOName', 'KGID', 'IOAssigned_Date', 'Internal_IO', 'Place_of_Offence', 'Distance_from_PS', 'Beat_Name', 'Village_Area_Name', 'Male', 'Female', 'Boy', 'Girl', 'Age', 'VICTIM_COUNT', 'Accused_Count', 'Arrested_Male', 'Arrested_Female', 'Arrested_Count_No', 'Accused_ChargeSheeted_Count', 'Conviction_Count', 'FIR_ID', 'Unit_ID', 'Crime_No'])
-        # redzones={'a':[213, 37, 0, 0, 0, 8, 0, 45, 0, 0, 0, 0],'b':[21, 7, 0, 10, 0, 50, 0, 0, 0, 0, 0, 5],'c':[13, 3, 0, 0, 0, 0, 0, 0, 0, 0, 4,45],'d':[83, 37, 0, 90, 0, 8, 0, 45, 0, 0, 0, 0],'e':[21, 7, 0, 10, 50, 50, 0, 90, 0, 0, 0, 5],'f':[3, 3, 0, 0, 90, 0, 0, 10, 0, 0, 4,45]}
-         
-        seriesdata=seriesdatafun(data)
-        print(seriesdata)        
-        return render_template('analytical_dashboard.html',data=data,series_data=seriesdata,htmlmap=htmlmap,district=district,district_mod=district_mod,datalength=len(data),redzones=redzones,username=username,csv_data=csv_data)
-    return render_template('login.html')
+            redzones=find_rendzones(data)
+            htmlmap=earthmap(data)
+            print(redzones)
+            csv_data = generate_csv(data,['District_Name', 'UnitName', 'FIRNo', 'RI', 'Year', 'Month', 'Offence_From_Date', 'Offence_To_Date', 'FIR_Reg_DateTime', 'FIR_Date', 'FIR_Type', 'FIR_Stage', 'Complaint_Mode', 'CrimeGroup_Name', 'CrimeHead_Name', 'Latitude', 'Longitude', 'ActSection', 'IOName', 'KGID', 'IOAssigned_Date', 'Internal_IO', 'Place_of_Offence', 'Distance_from_PS', 'Beat_Name', 'Village_Area_Name', 'Male', 'Female', 'Boy', 'Girl', 'Age', 'VICTIM_COUNT', 'Accused_Count', 'Arrested_Male', 'Arrested_Female', 'Arrested_Count_No', 'Accused_ChargeSheeted_Count', 'Conviction_Count', 'FIR_ID', 'Unit_ID', 'Crime_No'])
+            # redzones={'a':[213, 37, 0, 0, 0, 8, 0, 45, 0, 0, 0, 0],'b':[21, 7, 0, 10, 0, 50, 0, 0, 0, 0, 0, 5],'c':[13, 3, 0, 0, 0, 0, 0, 0, 0, 0, 4,45],'d':[83, 37, 0, 90, 0, 8, 0, 45, 0, 0, 0, 0],'e':[21, 7, 0, 10, 50, 50, 0, 90, 0, 0, 0, 5],'f':[3, 3, 0, 0, 90, 0, 0, 10, 0, 0, 4,45]}
+             
+            seriesdata=seriesdatafun(data)
+            print(seriesdata)        
+            return render_template('analytical_dashboard.html',data=data,series_data=seriesdata,htmlmap=htmlmap,district=district,district_mod=district_mod,datalength=len(data),redzones=redzones,username=username,csv_data=csv_data)
+    else:
+        return render_template('login.html')
 
 
 @app.route('/navigation_details/<username>')
@@ -741,7 +750,8 @@ def navigation_details(username):
         data=data[::-1]
         conn.close()
         return render_template('navigation.html',data=data,username=username)
-    return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 @app.route("/logout")
 def logout():
@@ -804,7 +814,8 @@ def staffupdate(username,staffid):
             return redirect(url_for('staff',username=username))
         else:
             return render_template('notallowed.html',username=username)
-    return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 
 @app.route("/updatecriminal/<username>/<criminalid>",methods=['GET','POST'])
@@ -858,7 +869,8 @@ def criminalupdate(username,criminalid):
             return redirect(url_for('criminal',username=username))
         else:
             return render_template('notallowed.html',username=username)
-    return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 if __name__=="__main__":
     app.run(debug=True)
