@@ -400,7 +400,7 @@ def home(username):
         data=cursor.fetchone()
         conn.close()
         return render_template('home.html',username=username,data=data)
-    return redirect('/stafflogin')
+    return render_template('login.html')
 
 @app.route('/staff/<username>',methods=['GET','POST'])
 def staff(username):
@@ -429,7 +429,7 @@ def staff(username):
             i[11]='http://127.0.0.1:5000/uploads/'+i[11]
         csv_data = generate_csv(datawl,['ID','NAME','EMAIL','PHONENUMBER','AGE','GENDER','DOB','JOINING_DATE','BRANCH','DESIGNATION','RETIRED_OR_SUSPENDED','IMAGE','ADDRESS'])
         return render_template('staff.html',data=data,username=username,gender=gender,retiredstatus=retiredtatus,csv_data=csv_data)
-    return redirect('/stafflogin')
+    return render_template('login.html')
 
 @app.route('/criminal/<username>',methods=['GET','POST'])
 def criminal(username):
@@ -464,7 +464,7 @@ def criminal(username):
         csv_data = generate_csv(datawl,['ID', 'NAME', 'PHONENUMBER', 'AGE', 'GENDER', 'DOB', 'JAILED', 'IMAGE', 'ADDRESS'])
             
         return render_template('criminal.html',data=data,username=username,jailed=jailed,gender=gender,csv_data=csv_data)
-    return redirect('/stafflogin')
+    return render_template('login.html')
 
 # to send the folder details of uploaded image
 @app.route('/uploads/<filename>')
@@ -547,7 +547,7 @@ def add_staff(username):
             return render_template('add_staff.html',username=username)
         else:
             return render_template('notallowed.html',username=username)
-    return redirect('/stafflogin')
+    return render_template('login.html')
 
 def allowed_file(filename):
   allowed_extensions = {'jpg', 'gif', 'jpeg', 'png'}
@@ -608,7 +608,7 @@ def add_criminal(username):
             return render_template('add_criminal.html',username=username)
         else:
             return render_template('notallowed.html',username=username)
-    return redirect('/stafflogin')
+    return render_template('login.html')
 
 
 
@@ -679,7 +679,7 @@ def file_complaint(username):
             return render_template('file_complaint.html',username=username)
         else:
             return render_template('notallowed.html',username=username)
-    return redirect('/stafflogin')
+    return render_template('login.html')
 
 @app.route('/analytical_dashboard/<username>',methods=['GET','POST'])
 def analytical_dashboard(username):
@@ -722,7 +722,7 @@ def analytical_dashboard(username):
         seriesdata=seriesdatafun(data)
         print(seriesdata)        
         return render_template('analytical_dashboard.html',data=data,series_data=seriesdata,htmlmap=htmlmap,district=district,district_mod=district_mod,datalength=len(data),redzones=redzones,username=username,csv_data=csv_data)
-    return redirect('/stafflogin')
+    return render_template('login.html')
 
 
 @app.route('/navigation_details/<username>')
@@ -741,7 +741,7 @@ def navigation_details(username):
         data=data[::-1]
         conn.close()
         return render_template('navigation.html',data=data,username=username)
-    return redirect('/stafflogin')
+    return render_template('login.html')
 
 @app.route("/logout")
 def logout():
@@ -804,7 +804,7 @@ def staffupdate(username,staffid):
             return redirect(url_for('staff',username=username))
         else:
             return render_template('notallowed.html',username=username)
-    return redirect('/stafflogin')
+    return render_template('login.html')
 
 
 @app.route("/updatecriminal/<username>/<criminalid>",methods=['GET','POST'])
@@ -858,7 +858,7 @@ def criminalupdate(username,criminalid):
             return redirect(url_for('criminal',username=username))
         else:
             return render_template('notallowed.html',username=username)
-    return redirect('/stafflogin')
+    return render_template('login.html')
 
 if __name__=="__main__":
     app.run(debug=True)
