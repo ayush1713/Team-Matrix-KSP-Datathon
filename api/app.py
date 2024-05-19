@@ -262,7 +262,7 @@ def earthmap(data):
     mapobj=folium.Map(location=[23.294059708387206,78.26660156250001],zoom_start=6)
     shapesLayer=folium.FeatureGroup(name='circles').add_to(mapobj)
     bordersStyle = {"color": 'green', 'weight': 2, 'fillOpacity': 0}
-    geojsons=['./api/geojsons/KARNATAKA_DISTRICTS.geojson','./api/geojsons/KARNATAKA_STATE.geojson']
+    geojsons=['./api/geojsons/KARNATAKA_STATE.geojson']
     for i in geojsons:
         bordersLayer = folium.GeoJson(
             data=i,
