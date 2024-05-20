@@ -2,18 +2,7 @@
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/app" }
   ],
-  "hooks": [
-    {
-      "command": "chmod 664 PUBLIC.db",
-      "trigger": "post-deploy"
-    },
-    {
-      "command": "chmod 664 POLICE_RECORD.db",
-      "trigger": "post-deploy"
-    },
-    {
-      "command": "chmod 664 POLICE_COMPLAINT.db",
-      "trigger": "post-deploy"
-    }
+ "builds": [
+    { "src": "post-deploy.sh", "use": "@vercel/static-build" }
   ]
 }
