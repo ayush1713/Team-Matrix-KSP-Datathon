@@ -20,7 +20,6 @@ th {
 
 /* Styles for the profile picture container */
 .profile-container {
-  float: right;
   margin: 10px;
   width: 218px;
   height: 238px;
@@ -34,4 +33,7 @@ th {
   height: 230px;
   object-fit: fill;
   border-radius: 10%; /* For a circular profile picture */
+}
+#homepagemain{
+  display: flex;
 }
