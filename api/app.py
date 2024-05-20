@@ -288,7 +288,7 @@ def earthmap(data):
 app=Flask(__name__)
 
 app.secret_key = 'super-secret-key'
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['UPLOAD_FOLDER'] = './api/uploads'
 
 @app.route('/public_emergency/<username>',methods=['GET','POST'])
 def public_emergency(username):
@@ -334,8 +334,6 @@ def public_login():
 
 @app.route('/public_signup',methods=['GET','POST'])
 def public_signup():
-    
-    global status
     if request.method=='POST':
         conn=sqlite3.connect('PUBLIC.db')
         cursor=conn.cursor()
@@ -348,9 +346,9 @@ def public_signup():
                         request.form.get('address')))
             conn.commit()
             flash('account created')
-        except:
+        except sqlite3.Error as e:
             conn.rollback()
-            flash('account creation failed')
+            flash(f'account creation failed {e}')
         conn.close()
         return redirect(url_for('public_login'))
     return render_template('public_signup.html')
