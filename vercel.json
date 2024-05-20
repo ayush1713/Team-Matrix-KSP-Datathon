@@ -3,6 +3,6 @@
     { "source": "/(.*)", "destination": "/api/app" }
   ],
  "builds": [
-    { "src": "post-deploy.sh", "use": "@vercel/static-build" }
+    { "src": "build/**", "use": "@vercel/static" }
   ]
 }
